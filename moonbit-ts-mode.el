@@ -1092,6 +1092,8 @@ comments in their embedded MoonBit expressions are real comments."
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.mbt\\(?:i\\|p\\)?\\'" . moonbit-ts-mode))
+;;;###autoload
+(add-to-list 'auto-mode-alist '("/moon\\.pkg\\'" . moonbit-ts-mode))
 
 (add-to-list 'eglot-server-programs
              '((moonbit-ts-mode :language-id "moonbit")

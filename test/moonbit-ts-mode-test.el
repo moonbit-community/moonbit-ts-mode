@@ -245,6 +245,18 @@
           (dolist (text excluded)
             (should-not (string-match-p (regexp-quote text) folded))))))))
 
+(ert-deftest moonbit-ts-test-moon-pkg ()
+  (should (eq (assoc-default "/tmp/demo/moon.pkg" auto-mode-alist
+                             #'string-match-p)
+              'moonbit-ts-mode))
+  (moonbit-ts-test--with-buffer "moon.pkg"
+      "import {\n  \"moonbitlang/core/list\",\n} for \"wbtest\"\n\nsupported_targets = \"js\"\n"
+    (font-lock-ensure)
+    (should-not (treesit-node-check (treesit-buffer-root-node) 'has-error))
+    (should (eq (moonbit-ts-test--face-at "import") 'font-lock-keyword-face))
+    (should (eq (moonbit-ts-test--face-at "\"moonbitlang")
+                'font-lock-string-face))))
+
 (provide 'moonbit-ts-mode-test)
 
 ;;; moonbit-ts-mode-test.el ends here
