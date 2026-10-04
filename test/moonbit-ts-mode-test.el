@@ -224,6 +224,9 @@
          ("struct_definition"
           "#deprecated\nstruct S {\n  x : Int\n}\n"
           ("x : Int") ("struct S"))
+         ("function_definition"
+          "#deprecated\n#internal(x, \"y\")\nfn f {\n  foo()\n}\n"
+          ("foo()") ("fn f"))
          ("try_catch_expression"
           "fn f {\n  try {\n    work()\n  } catch {\n    _ => recover()\n  } noraise {\n    x => clean(x)\n  }\n}\n"
           ("work()" "recover()" "clean(x)") ("fn f"))
