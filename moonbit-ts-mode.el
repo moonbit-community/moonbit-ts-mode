@@ -1038,6 +1038,22 @@ comments in their embedded MoonBit expressions are real comments."
           (treesit-search-subtree
            node moonbit-ts-mode--defun-name-node-regexp nil nil 3))))))
 
+(defvar hs-adjust-block-beginning-function)
+
+(defun moonbit-ts-mode--hs-adjust-block-beginning (_beg)
+  "Return the position where hiding the block at point should start.
+Hideshow hides a block from the end of its first line.  A definition
+node starts at its attributes, so skip them to keep the line that
+introduces the definition visible."
+  (save-excursion
+    (when-let* ((thing (treesit-thing-at (point) 'list))
+                ((= (treesit-node-start thing) (point)))
+                (attributes (moonbit-ts-mode--direct-child-of-type
+                             thing "attributes")))
+      (goto-char (treesit-node-end attributes))
+      (skip-chars-forward " \t\n"))
+    (pos-eol)))
+
 ;;;###autoload
 (define-derived-mode moonbit-ts-mode prog-mode "MoonBit[TS]"
   "Tree-sitter major mode for MoonBit."
@@ -1088,6 +1104,8 @@ comments in their embedded MoonBit expressions are real comments."
                 moonbit-ts-mode--treesit-thing-settings)
     (setq-local compile-command "moon build")
     (treesit-major-mode-setup)
+    (setq-local hs-adjust-block-beginning-function
+                #'moonbit-ts-mode--hs-adjust-block-beginning)
     (eglot-ensure)))
 
 ;;;###autoload
