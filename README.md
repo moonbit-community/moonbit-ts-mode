@@ -42,7 +42,8 @@ Install the MoonBit grammar manually with Emacs `treesit`:
 
 Tree-sitter highlighting rules are defined directly in `moonbit-ts-mode.el`.
 
-The mode is associated with `.mbt`, `.mbti`, and `.mbtp` files.
+The mode is associated with `.mbt`, `.mbti`, and `.mbtp` files, and with
+`moon.pkg` package files.
 
 ## Indentation
 
